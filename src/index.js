@@ -1,17 +1,39 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { heroesPorCompania } from "./introduccion/importar-exportar";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+// console.log(heroesPorCompania('DC'));
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+/* const promesa = new Promise((resolve, reject) => {
+  setTimeout( () => {
+    console.log('Han pasado 2 segundos');
+    const heroes = heroesPorCompania('DC');
+    // resolve(heroes);
+    reject('No se pudo encontrar a los superheroes');
+  }, 2000 );
+});
+
+promesa.then( (heroes) => {
+  console.log(heroes);
+})
+.catch(err => console.warn(err)); */
+
+const recuperaHeroesAsync = (company) => {
+  
+  const promesa = new Promise((resolve, reject) => {
+    setTimeout( () => {
+      const heroes = heroesPorCompania(company);
+      if (heroes === undefined ){
+        reject('No se pudo encontrar a los superheroes');
+      }
+      else{
+        resolve(heroes);
+      }
+    }, 2000 );
+  });
+
+  return promesa;
+
+}
+
+recuperaHeroesAsync('Mafalda')
+  .then( (heroes) => console.log('Heroes', heroes) )
+  .catch( err => console.warn(err) )
